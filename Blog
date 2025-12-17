@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Blog</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #111827;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+    }
+    h2 { margin-top: 0; }
+    textarea, input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    button {
+      padding: 10px 16px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+    .post {
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+    }
+    .post:last-child { border-bottom: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>My Personal Blog</h1>
+    <p>Writing, learning, growing</p>
+  </header>
+
+  <div class="container">
+    <h2>Create a Post</h2>
+    <input type="text" id="title" placeholder="Post title" />
+    <textarea id="content" rows="5" placeholder="Write your post..."></textarea>
+    <button onclick="addPost()">Publish</button>
+  </div>
+
+  <div class="container" id="posts"></div>
+
+  <div class="container">
+    <h2>Contact</h2>
+    <p><strong>Name:</strong> Ahana Raman</p>
+    <p><strong>Email:</strong> yourname@email.com</p>
+    <p><strong>Phone:</strong> +91-XXXXXXXXXX</p>
+    <p><strong>Instagram:</strong> <a href="https://instagram.com/yourhandle" target="_blank">@yourhandle</a></p>
+    <p><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/yourprofile" target="_blank">View Profile</a></p>
+  </div>
+
+  <script>
+    const postsDiv = document.getElementById('posts');
+
+    function loadPosts() {
+      const posts = JSON.parse(localStorage.getItem('posts')) || [];
+      postsDiv.innerHTML = '<h2>Posts</h2>';
+      posts.forEach(post => {
+        const div = document.createElement('div');
+        div.className = 'post';
+        div.innerHTML = `<h3>${post.title}</h3><p>${post.content}</p>`;
+        postsDiv.appendChild(div);
+      });
+    }
+
+    function addPost() {
+      const title = document.getElementById('title').value;
+      const content = document.getElementById('content').value;
+      if (!title || !content) return alert('Please fill all fields');
+
+      const posts = JSON.parse(localStorage.getItem('posts')) || [];
+      posts.unshift({ title, content });
+      localStorage.setItem('posts', JSON.stringify(posts));
+
+      document.getElementById('title').value = '';
+      document.getElementById('content').value = '';
+      loadPosts();
+    }
+
+    loadPosts();
+  </script>
+</body>
+</html>
